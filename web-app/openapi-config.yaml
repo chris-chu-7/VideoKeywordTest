@@ -1,0 +1,3 @@
+additionalProperties:
+  supportsES6: true
+  enumPropertyNaming: UPPERCASE

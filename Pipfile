@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+aiofiles = "==0.6.*"
+dataclasses-json = "==0.*"
+fastapi = "==0.*"
+pydantic = "==1.8"
+pytest = "==6.*"
+shortuuid = "==1.0.*"
+uvicorn = {version = "==0.*", extras = ["standard"]}
+
+[dev-packages]
+autopep8 = "*"
+black = "*"
+yapf = "*"
+
+[scripts]
+reload = "pipenv run uvicorn server.main:app --reload --reload-dir server --port 8002"
+start = "pipenv run uvicorn server.main:app --reload-dir server --port 8002"
+
+[pipenv]
+allow_prereleases = true
