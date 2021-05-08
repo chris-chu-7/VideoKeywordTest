@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+import uvicorn
 
 from fastapi import FastAPI
 from fastapi.logger import logger
@@ -48,11 +49,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount(
-    "/site",
-    StaticFiles(directory=dirname / ".." / "web-app" / "build", html=True),
-    name="site",
-)
+#app.mount(
+#    "/site",
+#    StaticFiles(directory=dirname / ".." / "web-app" / "build", html=True),
+#    name="site",
+#)
 
 
 class GetPingResBody(BaseModel):
@@ -77,3 +78,5 @@ def use_route_names_as_operation_ids(app: FastAPI) -> None:
 
 
 use_route_names_as_operation_ids(app)
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8002)
