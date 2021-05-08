@@ -49,11 +49,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-#app.mount(
-#    "/site",
-#    StaticFiles(directory=dirname / ".." / "web-app" / "build", html=True),
-#    name="site",
-#)
+if (dirname / ".." / "web-app" / "build").exists():
+    app.mount(
+        "/site",
+        StaticFiles(directory=dirname / ".." / "web-app" / "build", html=True),
+        name="site",
+    )
 
 
 class GetPingResBody(BaseModel):
