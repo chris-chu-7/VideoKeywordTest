@@ -1,14 +1,9 @@
 import { Box, Button, Flex, Radio, Stack, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { wordsSelector } from 'store/selectors/transcript';
+import { WordType } from 'types/models';
 import { useTypedSelector } from 'utils/hooks';
 import VideoSeeker from './VideoSeeker';
-
-enum WordType {
-  START = 'START',
-  KEYWORD = 'KEYWORD',
-  END = 'END',
-}
 
 const Video: React.FC = () => {
   const [startWordIndex, setStartWordIndex] = useState<number>();

@@ -10,3 +10,9 @@ export type FlashCardType = {
 };
 
 export type Transcript = Word[];
+
+export enum WordType {
+  START = 'START',
+  KEYWORD = 'KEYWORD',
+  END = 'END',
+}
