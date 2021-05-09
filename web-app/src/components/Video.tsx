@@ -95,9 +95,9 @@ const Video: React.FC = () => {
         </Box>
         <Button
           onClick={() =>
-            startWordIndex &&
+            startWordIndex !== undefined &&
             keywordIndexes.size > 0 &&
-            endWordIndex &&
+            endWordIndex !== undefined &&
             dispatch(
               addCard({
                 words: words
