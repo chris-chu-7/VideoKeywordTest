@@ -49,13 +49,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-if (dirname / ".." / "web-app" / "build").exists():
-    app.mount(
-        "/site",
-        StaticFiles(directory=dirname / ".." / "web-app" / "build", html=True),
-        name="site",
-    )
-
 
 class GetPingResBody(BaseModel):
     message: str
@@ -157,6 +150,18 @@ async def get_transcript(url: str):
             Word(**{"startTime": "30.900s", "endTime": "31.100s", "word": "risk"}),
         ]
     )
+
+
+build_dir_path = dirname / ".." / "web-app" / "build"
+if build_dir_path.exists():
+    logger.info("Build directory exists: %s", build_dir_path)
+    app.mount(
+        "/",
+        StaticFiles(directory=dirname / ".." / "web-app" / "build", html=True),
+        name="site",
+    )
+else:
+    logger.info("Build directory does not exist: %s", build_dir_path)
 
 
 def use_route_names_as_operation_ids(app: FastAPI) -> None:

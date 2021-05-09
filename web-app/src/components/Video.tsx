@@ -6,6 +6,7 @@ import {
   FormLabel,
   Input,
   Radio,
+  Spinner,
   Stack,
   Text,
 } from '@chakra-ui/react';
@@ -15,7 +16,7 @@ import { addCard, setUrl } from 'store/actions/cards';
 import { setPage } from 'store/actions/pages';
 import { loadTranscript } from 'store/actions/transcript';
 import { cardsSelector } from 'store/selectors/cards';
-import { wordsSelector } from 'store/selectors/transcript';
+import { isRequestingSelector, wordsSelector } from 'store/selectors/transcript';
 import { WordType } from 'types/models';
 import { useTypedDispatch, useTypedSelector } from 'utils/hooks';
 import Form from './Form';
@@ -34,6 +35,7 @@ const Video: React.FC = () => {
 
   const words = useTypedSelector(wordsSelector);
   const cards = useTypedSelector(cardsSelector);
+  const isRequesting = useTypedSelector(isRequestingSelector);
 
   return (
     <Stack padding="16">
@@ -52,8 +54,11 @@ const Video: React.FC = () => {
             value={urlInputValue}
           />
         </FormControl>
-        <Button type="submit">Set</Button>
+        <Button type="submit" disabled={isRequesting}>
+          Set
+        </Button>
       </Form>
+      {isRequesting && <Spinner />}
       <VideoSeeker segment={segment} onProgress={(pS) => setPlayedSeconds(pS)} />
       <Button
         type="submit"
