@@ -5,7 +5,7 @@ from pathlib import Path
 import uvicorn
 import subprocess
 
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from fastapi.logger import logger
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
@@ -17,9 +17,10 @@ from converter import Converter
 from google.cloud import speech
 from google.cloud import storage
 from pytube import YouTube
-from google.protobuf.json_format import MessageToDict, MessageToJson
+from google.protobuf.json_format import MessageToDict
 
 dirname = Path(__file__).resolve().parent
+MAX_YT_VIDEO_LENGTH_IN_SECONDS = 300
 
 credential_path = dirname / ".." / "credentials/VideoKeywordTest-8e1da767906e.json"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(credential_path.absolute())
@@ -90,7 +91,10 @@ class GetTranscriptResBody(BaseModel):
 
 
 @app.get("/transcript", response_model=GetTranscriptResBody)
-async def get_transcript(url: str):
+async def get_transcript(
+    url: str,
+    response: Response,
+):
 
     # Download Audio of the YouTube video
     yt = YouTube(url)
@@ -103,6 +107,10 @@ async def get_transcript(url: str):
     if transcript_file_path.exists():
         full_words_list = json.loads(transcript_file_path.read_text())
     else:
+        if yt.length > MAX_YT_VIDEO_LENGTH_IN_SECONDS:
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return
+
         stream = yt.streams.filter(only_audio=True, subtype="mp4").first()
         stream.download(audio_folder_path, filename=yt.video_id)
 

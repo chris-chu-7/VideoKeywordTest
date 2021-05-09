@@ -46,7 +46,7 @@ const Video: React.FC = () => {
         }}
       >
         <FormControl>
-          <FormLabel>YouTube URL</FormLabel>
+          <FormLabel>YouTube URL (Up to 5 minutes long)</FormLabel>
           <Input
             type="text"
             required
