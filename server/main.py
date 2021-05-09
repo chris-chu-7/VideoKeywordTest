@@ -21,7 +21,7 @@ from google.protobuf.json_format import MessageToDict, MessageToJson
 
 dirname = Path(__file__).resolve().parent
 
-credential_path = dirname / "credentials/VideoKeywordTest-8e1da767906e.json"
+credential_path = dirname / ".." / "credentials/VideoKeywordTest-8e1da767906e.json"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(credential_path.absolute())
 
 audio_folder_path = dirname / "audio"
