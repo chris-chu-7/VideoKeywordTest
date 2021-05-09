@@ -3,6 +3,7 @@ import { Page } from 'constants/pages';
 import React, { useState } from 'react';
 import { addCard } from 'store/actions/cards';
 import { setPage } from 'store/actions/pages';
+import { cardsSelector } from 'store/selectors/cards';
 import { wordsSelector } from 'store/selectors/transcript';
 import { WordType } from 'types/models';
 import { useTypedDispatch, useTypedSelector } from 'utils/hooks';
@@ -19,9 +20,10 @@ const Video: React.FC = () => {
   const [segment, setSegment] = useState<{ startTime: number; endTime: number }>();
 
   const words = useTypedSelector(wordsSelector);
+  const cards = useTypedSelector(cardsSelector);
 
   return (
-    <Stack>
+    <Stack padding="16">
       <VideoSeeker segment={segment} onProgress={(pS) => setPlayedSeconds(pS)} />
       <Button
         type="submit"
@@ -122,7 +124,9 @@ const Video: React.FC = () => {
           </Button>
         ))}
       </Flex>
-      <Button onClick={() => dispatch(setPage(Page.FLASHCARDS))}>View Flashcards</Button>
+      <Button disabled={cards.length === 0} onClick={() => dispatch(setPage(Page.FLASHCARDS))}>
+        View Flashcards
+      </Button>
     </Stack>
   );
 };
