@@ -64,7 +64,7 @@ app.middleware("http")(catch_exceptions_middleware)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3001"],
+    allow_origins=["http://localhost:3001", "http://protect-nezuko.tech"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
