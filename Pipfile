@@ -4,11 +4,15 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
+PythonVideoConverter = "==1.0.*"
 aiofiles = "==0.6.*"
 dataclasses-json = "==0.*"
 fastapi = "==0.*"
+google-cloud-speech = "==2.3.*"
+google-cloud-storage = "==1.38.*"
 pydantic = "==1.8"
 pytest = "==6.*"
+pytube = "==10.7.*"
 shortuuid = "==1.0.*"
 uvicorn = {version = "==0.*", extras = ["standard"]}
 

@@ -57,7 +57,8 @@
     "no-param-reassign": "off",
     "react/jsx-wrap-multilines": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "react/jsx-curly-newline": "off"
+    "react/jsx-curly-newline": "off",
+    "no-console": "off"
   },
   "settings": {
     "import/resolver": {

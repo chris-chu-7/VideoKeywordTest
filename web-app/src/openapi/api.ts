@@ -34,6 +34,82 @@ export interface GetPingResBody {
      */
     message: string;
 }
+/**
+ * 
+ * @export
+ * @interface GetTranscriptResBody
+ */
+export interface GetTranscriptResBody {
+    /**
+     * 
+     * @type {Array<Word>}
+     * @memberof GetTranscriptResBody
+     */
+    words: Array<Word>;
+}
+/**
+ * 
+ * @export
+ * @interface HTTPValidationError
+ */
+export interface HTTPValidationError {
+    /**
+     * 
+     * @type {Array<ValidationError>}
+     * @memberof HTTPValidationError
+     */
+    detail?: Array<ValidationError>;
+}
+/**
+ * 
+ * @export
+ * @interface ValidationError
+ */
+export interface ValidationError {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ValidationError
+     */
+    loc: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ValidationError
+     */
+    msg: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ValidationError
+     */
+    type: string;
+}
+/**
+ * 
+ * @export
+ * @interface Word
+ */
+export interface Word {
+    /**
+     * 
+     * @type {string}
+     * @memberof Word
+     */
+    startTime: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Word
+     */
+    endTime: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Word
+     */
+    word: string;
+}
 
 /**
  * DefaultApi - axios parameter creator
@@ -41,6 +117,43 @@ export interface GetPingResBody {
  */
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @summary Get Transcript
+         * @param {string} url 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTranscript: async (url: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'url' is not null or undefined
+            assertParamExists('getTranscript', 'url', url)
+            const localVarPath = `/transcript`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (url !== undefined) {
+                localVarQueryParameter['url'] = url;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @summary Ping
@@ -83,6 +196,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Get Transcript
+         * @param {string} url 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTranscript(url: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTranscriptResBody>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTranscript(url, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Ping
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -103,6 +227,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Get Transcript
+         * @param {string} url 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTranscript(url: string, options?: any): AxiosPromise<GetTranscriptResBody> {
+            return localVarFp.getTranscript(url, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Ping
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -120,6 +254,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get Transcript
+     * @param {string} url 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getTranscript(url: string, options?: any) {
+        return DefaultApiFp(this.configuration).getTranscript(url, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Ping
