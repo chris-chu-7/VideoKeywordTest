@@ -124,6 +124,7 @@ const Video: React.FC = () => {
           </Button>
         ))}
       </Flex>
+      <Text>Number of cards: {cards.length}</Text>
       <Button disabled={cards.length === 0} onClick={() => dispatch(setPage(Page.FLASHCARDS))}>
         View Flashcards
       </Button>
