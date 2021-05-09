@@ -1,12 +1,24 @@
-import { Box, Button, Flex, Radio, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Radio,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { Page } from 'constants/pages';
 import React, { useState } from 'react';
-import { addCard } from 'store/actions/cards';
+import { addCard, setUrl } from 'store/actions/cards';
 import { setPage } from 'store/actions/pages';
+import { loadTranscript } from 'store/actions/transcript';
 import { cardsSelector } from 'store/selectors/cards';
 import { wordsSelector } from 'store/selectors/transcript';
 import { WordType } from 'types/models';
 import { useTypedDispatch, useTypedSelector } from 'utils/hooks';
+import Form from './Form';
 import VideoSeeker from './VideoSeeker';
 
 const Video: React.FC = () => {
@@ -16,6 +28,7 @@ const Video: React.FC = () => {
   const [wordType, setWordType] = useState(WordType.START);
   const [keywordIndexes, setKeywordIndexes] = useState(new Set());
   const [playedSeconds, setPlayedSeconds] = useState(0);
+  const [urlInputValue, setUrlInputValue] = useState('');
 
   const [segment, setSegment] = useState<{ startTime: number; endTime: number }>();
 
@@ -24,6 +37,23 @@ const Video: React.FC = () => {
 
   return (
     <Stack padding="16">
+      <Form
+        onSubmit={() => {
+          dispatch(setUrl(urlInputValue));
+          dispatch(loadTranscript.request(urlInputValue));
+        }}
+      >
+        <FormControl>
+          <FormLabel>YouTube URL</FormLabel>
+          <Input
+            type="text"
+            required
+            onChange={(e) => setUrlInputValue(e.target.value)}
+            value={urlInputValue}
+          />
+        </FormControl>
+        <Button type="submit">Set</Button>
+      </Form>
       <VideoSeeker segment={segment} onProgress={(pS) => setPlayedSeconds(pS)} />
       <Button
         type="submit"
@@ -65,7 +95,11 @@ const Video: React.FC = () => {
             endWordIndex &&
             dispatch(
               addCard({
-                words: words.filter((_, index) => startWordIndex <= index && index <= endWordIndex),
+                words: words
+                  .map((word, i) =>
+                    keywordIndexes.has(i) ? { ...word, type: WordType.KEYWORD } : word,
+                  )
+                  .filter((_, index) => startWordIndex <= index && index <= endWordIndex),
               }),
             )
           }
@@ -79,10 +113,10 @@ const Video: React.FC = () => {
             // eslint-disable-next-line react/no-array-index-key
             key={i}
             colorScheme={
-              startWordIndex === i
-                ? 'blue'
-                : keywordIndexes.has(i)
+              keywordIndexes.has(i)
                 ? 'orange'
+                : startWordIndex === i
+                ? 'blue'
                 : endWordIndex === i
                 ? 'red'
                 : word.startTime <= playedSeconds && playedSeconds <= word.endTime
