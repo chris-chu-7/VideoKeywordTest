@@ -1,11 +1,15 @@
 import { Box, Button, Flex, Radio, Stack, Text } from '@chakra-ui/react';
+import { Page } from 'constants/pages';
 import React, { useState } from 'react';
+import { addCard } from 'store/actions/cards';
+import { setPage } from 'store/actions/pages';
 import { wordsSelector } from 'store/selectors/transcript';
 import { WordType } from 'types/models';
-import { useTypedSelector } from 'utils/hooks';
+import { useTypedDispatch, useTypedSelector } from 'utils/hooks';
 import VideoSeeker from './VideoSeeker';
 
 const Video: React.FC = () => {
+  const dispatch = useTypedDispatch();
   const [startWordIndex, setStartWordIndex] = useState<number>();
   const [endWordIndex, setEndWordIndex] = useState<number>();
   const [wordType, setWordType] = useState(WordType.START);
@@ -52,6 +56,20 @@ const Video: React.FC = () => {
             <Text color="red">End</Text>
           </Radio>
         </Box>
+        <Button
+          onClick={() =>
+            startWordIndex &&
+            keywordIndexes.size > 0 &&
+            endWordIndex &&
+            dispatch(
+              addCard({
+                words: words.filter((_, index) => startWordIndex <= index && index <= endWordIndex),
+              }),
+            )
+          }
+        >
+          Create New Card
+        </Button>
       </Stack>
       <Flex wrap="wrap">
         {words.map((word, i) => (
@@ -104,6 +122,7 @@ const Video: React.FC = () => {
           </Button>
         ))}
       </Flex>
+      <Button onClick={() => dispatch(setPage(Page.FLASHCARDS))}>View Flashcards</Button>
     </Stack>
   );
 };

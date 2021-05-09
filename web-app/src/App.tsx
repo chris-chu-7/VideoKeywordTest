@@ -1,5 +1,6 @@
 // import Modals from "components/Modals";
 import { Text } from '@chakra-ui/react';
+import Cards from 'components/Cards';
 import Video from 'components/Video';
 import { ConnectedRouter } from 'connected-react-router';
 import { Page } from 'constants/pages';
@@ -21,7 +22,13 @@ const App: React.FC = () => {
         <Router>
           <Switch>
             <Route path="/">
-              {currentPage === Page.VIDEO ? <Video /> : <Text>Unknown page: {currentPage}</Text>}
+              {currentPage === Page.VIDEO ? (
+                <Video />
+              ) : currentPage === Page.FLASHCARDS ? (
+                <Cards />
+              ) : (
+                <Text>Unknown page: {currentPage}</Text>
+              )}
             </Route>
           </Switch>
         </Router>
