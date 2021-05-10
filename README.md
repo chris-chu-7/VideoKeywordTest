@@ -5,6 +5,10 @@ pyenv install --dev
 ```
 Example used: https://www.youtube.com/watch?v=PSnSo9kYlH4
 
+Demo(s):
+https://www.youtube.com/watch?v=N1FzT5LsR-M
+https://www.youtube.com/watch?v=bbLDWrT0O94
+
 <b> Inspiration </b> 
 
 Since the COVID-19 pandemic last year, classrooms have switched almost entirely to virtual learning. Many students now more than ever rely on educational online videos to get through their classes. As current and recently graduated college students, we found that rewatching lecture videos can make learning very effective. We had several challenges in these videos:
